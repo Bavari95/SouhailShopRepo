@@ -28,6 +28,7 @@ namespace API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IProductRepository, ProductRepository>();         
+            services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));         
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
