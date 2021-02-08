@@ -1,4 +1,6 @@
-﻿using Core.Interfaces;
+﻿using API.Helpers;
+using AutoMapper;
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +31,7 @@ namespace API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IProductRepository, ProductRepository>();         
             services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));         
+            services.AddAutoMapper(typeof(MappingProfiles));         
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
