@@ -55,6 +55,7 @@ namespace API
             }
 
             app.UseHttpsRedirection();
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseMvc();
             app.UseCors("MyPolicy");
         }
