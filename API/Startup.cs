@@ -1,4 +1,5 @@
 ﻿using API.Helpers;
+using API.Middleware;
 using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
@@ -45,15 +46,11 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
+            app.UseMiddleware<ExceptionMiddleware>();
 
+            app.UseAuthentication();
+            app.UseStaticFiles();
+            
             app.UseHttpsRedirection();
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseMvc();
