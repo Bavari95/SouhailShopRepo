@@ -16,23 +16,25 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [EnableCors("MyPolicy")]
     public class ProductsController : BaseApiController
     {
         private readonly IGenericRepository<Product> _productRepo;
         private readonly IGenericRepository<ProductType> _productTypeRepo;
         private readonly IMapper _mapper;
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
+        private readonly StoreContext _context;
 
         public ProductsController(IGenericRepository<Product> productRepo, 
             IGenericRepository<ProductBrand> productBrandRepo,
             IGenericRepository<ProductType> productTypeRepo,
-            IMapper mapper)
+            IMapper mapper,
+            StoreContext context)
         {
             _productRepo = productRepo;
             _productTypeRepo = productTypeRepo;
             _mapper = mapper;
             _productBrandRepo = productBrandRepo;
+            _context = context;
         }
 
         [HttpGet]
@@ -76,5 +78,28 @@ namespace API.Controllers
             return Ok(productTypes);
         }
 
+        [HttpPost("addproduct")]
+        public  IActionResult AddProduct([FromBody]Product p)
+        {          
+            _context.Products.Add(p);
+            _context.SaveChanges();
+            return  Ok();
+        }
+
+        [HttpPost("addproductbrand")]
+        public IActionResult AddBrand([FromBody]ProductBrand pb)
+        {
+            _context.ProductBrands.Add(pb);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost("addproducttype")]
+        public IActionResult AddType([FromBody]ProductType pt)
+        {
+            _context.ProductTypes.Add(pt);
+            _context.SaveChanges();
+            return Ok();
+        }
     }
 }

@@ -10,8 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System.Linq;
 
 namespace API
@@ -36,9 +34,7 @@ namespace API
             services.AddAutoMapper(typeof(MappingProfiles));         
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
+                builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
             }));
             
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString
@@ -69,13 +65,15 @@ namespace API
         {
             app.UseMiddleware<ExceptionMiddleware>();
 
+            app.UseCors("MyPolicy");
+
             app.UseAuthentication();
+           
             app.UseStaticFiles();
             
             app.UseHttpsRedirection();
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseMvc();
-            app.UseCors("MyPolicy");
         }
     }
 }
