@@ -11,31 +11,33 @@ import { map } from 'rxjs/operators';
 export class ShopService {
   baseUrl = 'https://localhost:5001/api/';
 
-  constructor(private http: HttpClient ) { }
+  constructor(private http: HttpClient) { }
 
-  getProducts(brandId: number, typeId: number){
-    let params = new HttpParams();
+  getProducts(brandId?: number, typeId?: number, sort?: string) {    
+    let brandIdString = '';
+    let typeIdString = '';
 
-    if (brandId){
-      params.append('brandId', brandId.toString());
+    if (brandId !== 0){
+      brandIdString = brandId.toString();
     }
 
-    if (typeId){
-      params.append('typeId', typeId.toString());
+    if (typeId !== 0){
+      typeIdString = typeId.toString();
     }
-
-    return this.http.get<IPagination>(this.baseUrl + 'products', { observe: 'response' , params})
-    .pipe(
-      map( response => {
-        return response.body;
-      }));
+            
+    return this.http.get<IPagination>(this.baseUrl + 'products?brandId=' +
+    brandIdString + '&typeId=' + typeIdString + '&sort=' + sort )
+      .pipe(
+        map(response => {
+          return response;
+        }));
   }
 
-  getBrands(){
+  getBrands() {
     return this.http.get<IBrand[]>(this.baseUrl + 'products/brands');
   }
 
-  getTypes(){
+  getTypes() {
     return this.http.get<IType[]>(this.baseUrl + 'products/types');
   }
 }
