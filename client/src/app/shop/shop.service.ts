@@ -17,6 +17,7 @@ export class ShopService {
   getProducts(shopParams: ShopParams) {    
     let brandIdString = '';
     let typeIdString = '';
+    let searchString = '';
 
     if (shopParams.brandId !== 0){
       brandIdString = shopParams.brandId.toString();
@@ -26,10 +27,13 @@ export class ShopService {
       typeIdString = shopParams.typeId.toString();
     }
     
-    
-    return this.http.get<IPagination>(this.baseUrl + 'products?brandId=' +
+    if (shopParams.search !== '' && shopParams.search !== undefined){
+      searchString = shopParams.search;
+    }
+       
+    return this.http.get<IPagination>(this.baseUrl + 'products?&search=' + searchString + '&brandId=' +
     brandIdString + '&typeId=' + typeIdString + '&sort=' + shopParams.sort + '&pageIndex=' + shopParams.pageNumber.toString()
-    + '&pageSize=' +shopParams.pageSize.toString() )
+    + '&pageSize=' + shopParams.pageSize.toString())
       .pipe(
         map(response => {
           return response;
