@@ -31,6 +31,7 @@ namespace API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IProductRepository, ProductRepository>();         
+            services.AddScoped<IBasketRepository, BasketRepository>();         
             services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));         
             services.AddAutoMapper(typeof(MappingProfiles));         
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
