@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 using System.Linq;
 
 namespace API
@@ -30,6 +31,7 @@ namespace API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<IProductRepository, ProductRepository>();         
+            services.AddScoped<IBasketRepository, BasketRepository>();         
             services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));         
             services.AddAutoMapper(typeof(MappingProfiles));         
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
@@ -39,6 +41,13 @@ namespace API
             
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString
             ("DefaultConnection")));
+
+            services.AddSingleton<ConnectionMultiplexer>(c =>
+            {
+                var configuration = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"),
+                true);
+                return ConnectionMultiplexer.Connect(configuration);
+            });
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = actionContext =>
