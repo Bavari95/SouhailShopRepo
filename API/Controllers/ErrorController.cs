@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("error/{code}")]
+    [Route("errors/{code}")]
     public class ErrorController : BaseApiController
     {
         public IActionResult Error(int code)
