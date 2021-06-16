@@ -15,13 +15,6 @@ export class TestErrorComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get404Error(){
-    this.http.get(this.baseUrl + 'products/42').subscribe(respnse => {
-      console.log(respnse);
-    }, error => {
-      console.log(error);
-    });
-  }
 
   get500Error(){
     this.http.get(this.baseUrl + 'buggy/servererror').subscribe(respnse => {
@@ -32,7 +25,7 @@ export class TestErrorComponent implements OnInit {
   }
   
   get400Error(){
-    this.http.get(this.baseUrl + 'buggy/bdrequest').subscribe(respnse => {
+    this.http.get(this.baseUrl + 'buggy/badrequest').subscribe(respnse => {
       console.log(respnse);
     }, error => {
       console.log(error);
@@ -41,6 +34,14 @@ export class TestErrorComponent implements OnInit {
 
   get400ValidationError(){
     this.http.get(this.baseUrl + 'products/fortytwo').subscribe(respnse => {
+      console.log(respnse);
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  get404Error(){
+    this.http.get(this.baseUrl + 'products/43').subscribe(respnse => {
       console.log(respnse);
     }, error => {
       console.log(error);
