@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
+    [Route("api/[controller]")]
     public class BasketController : BaseApiController
     {
         private readonly IBasketRepository _basketRepository;
