@@ -36,7 +36,7 @@ namespace API
             services.AddAutoMapper(typeof(MappingProfiles));         
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
             }));
             
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString
