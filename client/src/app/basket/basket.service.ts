@@ -70,11 +70,6 @@ export class BasketService {
     
   }
 
-  confirmRemoveItemFromBasket(item: IBasketItem) {
-    if(confirm('Are you sure to delete '+ item.productName +' from the list')) {
-      this.removeItemFromBasket(item);
-    }
-  }
 
   removeItemFromBasket(item: IBasketItem) {
     const basket = this.getCurrentBasketValue();
