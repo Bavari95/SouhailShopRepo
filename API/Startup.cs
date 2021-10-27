@@ -1,4 +1,5 @@
 ﻿using API.Errors;
+using API.Extensions;
 using API.Helpers;
 using API.Middleware;
 using AutoMapper;
@@ -40,6 +41,8 @@ namespace API
                 builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
             }));
             
+
+            
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString
             ("DefaultConnection")));
 
@@ -47,6 +50,8 @@ namespace API
             {
                 x.UseSqlite(_config.GetConnectionString("IdentityConnection"));
             });
+
+            services.AppIdentityServices();
 
             services.AddSingleton<IConnectionMultiplexer>(c =>
             {
