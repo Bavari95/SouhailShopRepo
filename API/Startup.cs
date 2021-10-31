@@ -4,6 +4,7 @@ using API.Helpers;
 using API.Middleware;
 using AutoMapper;
 using Core.Interfaces;
+using Core.Services;
 using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddScoped<ITokenService, TokenService>();         
             services.AddScoped<IProductRepository, ProductRepository>();         
             services.AddScoped<IBasketRepository, BasketRepository>();         
             services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));         
@@ -51,7 +53,7 @@ namespace API
                 x.UseSqlite(_config.GetConnectionString("IdentityConnection"));
             });
 
-            services.AppIdentityServices();
+            services.AppIdentityServices(_config);
 
             services.AddSingleton<IConnectionMultiplexer>(c =>
             {
@@ -92,6 +94,7 @@ namespace API
             app.UseCors("MyPolicy");
 
             app.UseAuthentication();
+            //app.UseAuthorization();
            
             app.UseStaticFiles();
             
