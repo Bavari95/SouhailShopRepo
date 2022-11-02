@@ -24,6 +24,7 @@ namespace API
         public Startup(IConfiguration config)
         {
             _config = config;
+            
             // Configuration = configuration;
         }
 
